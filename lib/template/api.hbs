@@ -17,11 +17,25 @@ export const request = (method, url, body, queryParameters, form, config)=>{
   }
   // let queryUrl = url+(keys.length > 0 ? '?' + (keys.map(key => key + '=' + encodeURIComponent(queryParameters[key])).join('&')) : '')
   if(body){
-      return axios[method](queryUrl,body,config)
+      return axios({
+        method: method,
+        url: queryUrl,
+        data: body,
+        headers: config
+      })
   } else if (method === 'get' || method === 'delete' || method === 'head' || method === 'option') {
-      return axios[method](queryUrl,config)
+      return axios({
+        method: method,
+        url: queryUrl,
+        headers: config
+      })
   } else {
-      return axios[method](queryUrl,qs.stringify(form),config)
+      return axios({
+        method: method,
+        url: queryUrl,
+        body: qs.stringify(form),
+        headers: config
+      })
   }
 }
 
